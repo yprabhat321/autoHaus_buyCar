@@ -17,30 +17,40 @@ Use the following account to review the administrator workflow in the demo envir
 ## 📸 Application Showcase
 
 ### 🛡️ Admin Portal Showcase
-The Admin section provides complete dealership oversight, stock management, sales metrics, and transaction auditing.
 
-#### 1. Inventory Overview & Revenue Intelligence
-![Admin Inventory Overview](docs/screenshots/admin-inventory-overview.png)
+The Admin portal provides complete dealership oversight, inventory operations, sales reporting, and transaction auditing.
 
-#### 2. Stock & Sales Analytics Charts
-![Admin Analytics Charts](docs/screenshots/admin-analytics-charts.png)
+#### 1. Inventory Management
 
-#### 3. Operational Activity & Audit Log
-![Admin Activity Log](docs/screenshots/admin-activity-log.png)
+| Catalogue actions | Search, filters, and vehicle creation |
+| --- | --- |
+| ![Admin inventory catalogue](docs/screenshots/admin-inventory-cards.png) | ![Admin inventory search](docs/screenshots/admin-inventory-search.png) |
 
-#### 4. Transactions & Invoice Management
-![Admin Invoice Management](docs/screenshots/admin-invoice-management.png)
+#### 2. Purchase Records
+
+![Admin purchase records](docs/screenshots/admin-purchases.png)
+
+#### 3. Invoice Management
+
+| Searchable invoice register | Invoice review and PDF download |
+| --- | --- |
+| ![Admin invoice management](docs/screenshots/admin-invoices.png) | ![Admin invoice detail](docs/screenshots/admin-invoice-detail.png) |
+
+#### 4. Analytics Dashboard
+
+| Inventory and sales summary | Category, brand, value, and purchase analytics |
+| --- | --- |
+| ![Admin dashboard overview](docs/screenshots/admin-dashboard-overview.png) | ![Admin dashboard analytics](docs/screenshots/admin-dashboard-analytics.png) |
 
 ---
 
 ### 🛒 Customer Portal Showcase
-The Customer section allows buyers to explore live vehicle stock, apply rich multi-parameter filters, execute immediate purchases, and view PDF invoices.
 
-#### 1. User Authentication (Login & Registration)
-![User Login](docs/screenshots/login.png)
+The Customer portal allows buyers to sign in, explore live vehicle stock, apply multi-parameter filters, complete purchases, and view invoices.
 
-#### 2. Showroom Floor & Vehicle Catalog
-![Available Inventory Catalog](docs/screenshots/dashboard.png)
+| Sign in | Showroom floor and vehicle catalogue |
+| --- | --- |
+| ![Customer login](docs/screenshots/customer-login.png) | ![Customer inventory](docs/screenshots/customer-inventory.png) |
 
 ---
 
@@ -111,8 +121,8 @@ npm install
 Configure `backend/.env`:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://prabhat:Yprabhat321@cluster0.ykagong.mongodb.net/?appName=Cluster0
-JWT_SECRET=supersecretjwtkey_buycar_2024
+MONGO_URI=mongodb://127.0.0.1:27017/car_dealership
+JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
 ```
