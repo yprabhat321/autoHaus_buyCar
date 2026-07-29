@@ -21,11 +21,15 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-3 sm:gap-6">
           {isAuthenticated ? (
             <>
+              <Link to="/" className="hidden sm:inline font-display uppercase tracking-wide text-xs hover:text-brass-400 transition-colors">Inventory</Link>
+              <Link to="/purchases" className="hidden sm:inline font-display uppercase tracking-wide text-xs hover:text-brass-400 transition-colors">Purchases</Link>
+              <Link to="/invoices" className="hidden sm:inline font-display uppercase tracking-wide text-xs hover:text-brass-400 transition-colors">Invoices</Link>
+              {isAdmin && <Link to="/admin/dashboard" className="hidden md:inline font-display uppercase tracking-wide text-xs hover:text-brass-400 transition-colors">Dashboard</Link>}
               <span className="hidden md:inline text-xs uppercase tracking-wide text-steel-400">
-                {isAdmin ? 'Admin' : 'Member'} · {user?.name}
+                {isAdmin ? 'Admin' : 'Customer'} · {user?.name}
               </span>
               <button
                 type="button"

@@ -7,9 +7,10 @@ import { useAuth } from '../context/AuthContext.jsx';
  * Kept as its own component (rather than inline checks per-page) so the
  * "who is allowed here" logic lives in exactly one place.
  */
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { isAuthenticated, isAdmin } = useAuth();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (adminOnly && !isAdmin) return <Navigate to="/" replace />;
   return children;
 };
 

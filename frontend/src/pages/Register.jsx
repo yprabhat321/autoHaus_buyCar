@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 
 const Register = () => {
   const { register, authError, loading, clearAuthError } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [localError, setLocalError] = useState('');
+  const { showToast } = useToast();
 
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
@@ -19,13 +21,16 @@ const Register = () => {
       setLocalError('Passwords do not match.');
       return;
     }
-    if (form.password.length < 6) {
-      setLocalError('Password must be at least 6 characters long.');
+    if (form.password.length < 8) {
+      setLocalError('Password must be at least 8 characters long.');
       return;
     }
 
     const ok = await register(form.name, form.email, form.password);
-    if (ok) navigate('/', { replace: true });
+    if (ok) {
+      showToast('Account created. Welcome to AutoHaus.');
+      navigate('/', { replace: true });
+    }
   };
 
   return (
@@ -39,7 +44,7 @@ const Register = () => {
           </h1>
         </div>
         <p className="text-xs text-steel-400 max-w-sm">
-          Registration takes less than a minute. Admin accounts can additionally manage inventory.
+          Registration takes less than a minute. Your customer account gives you access to live inventory and purchases.
         </p>
       </div>
 
@@ -87,7 +92,8 @@ const Register = () => {
                 className="input-field"
                 value={form.password}
                 onChange={update('password')}
-                placeholder="At least 6 characters"
+                minLength="8"
+                placeholder="At least 8 characters"
               />
             </div>
             <div>

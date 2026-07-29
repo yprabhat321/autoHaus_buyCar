@@ -4,6 +4,10 @@ const morgan = require('morgan');
 
 const authRoutes = require('./routes/authRoutes');
 const vehicleRoutes = require('./routes/vehicleRoutes');
+const purchaseRoutes = require('./routes/purchaseRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
+const adminInvoiceRoutes = require('./routes/adminInvoiceRoutes');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 /**
@@ -27,6 +31,10 @@ const createApp = () => {
 
   app.use('/api/auth', authRoutes);
   app.use('/api/vehicles', vehicleRoutes);
+  app.use('/api/purchases', purchaseRoutes);
+  app.use('/api/analytics', analyticsRoutes);
+  app.use('/api/invoices', invoiceRoutes);
+  app.use('/api/admin/invoices', adminInvoiceRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

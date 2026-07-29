@@ -27,7 +27,7 @@ describe('Auth API', () => {
       expect(res.body.data.token).toEqual(expect.any(String));
       expect(res.body.data.user.email).toBe(validUser.email);
       expect(res.body.data.user.password).toBeUndefined();
-      expect(res.body.data.user.role).toBe('user');
+      expect(res.body.data.user.role).toBe('customer');
     });
 
     it('rejects registration when required fields are missing', async () => {
@@ -43,6 +43,12 @@ describe('Auth API', () => {
 
       expect(res.statusCode).toBe(409);
       expect(res.body.success).toBe(false);
+    });
+
+    it('does not allow public registration to claim the admin role', async () => {
+      const res = await request(app).post('/api/auth/register').send({ ...validUser, email: 'role@example.com', role: 'admin' });
+      expect(res.statusCode).toBe(201);
+      expect(res.body.data.user.role).toBe('customer');
     });
   });
 

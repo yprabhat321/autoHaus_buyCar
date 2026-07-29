@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -6,6 +6,11 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import VehicleDetails from './pages/VehicleDetails.jsx';
+import PurchaseHistory from './pages/PurchaseHistory.jsx';
+import InvoiceManagement from './pages/InvoiceManagement.jsx';
+
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard.jsx'));
 
 const App = () => {
   return (
@@ -21,6 +26,28 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vehicles/:id"
+            element={<ProtectedRoute><VehicleDetails /></ProtectedRoute>}
+          />
+          <Route
+            path="/purchases"
+            element={<ProtectedRoute><PurchaseHistory /></ProtectedRoute>}
+          />
+          <Route
+            path="/invoices"
+            element={<ProtectedRoute><InvoiceManagement /></ProtectedRoute>}
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute adminOnly>
+                <Suspense fallback={<div className="max-w-7xl mx-auto px-6 lg:px-10 py-12 text-steel-600">Loading dashboard…</div>}>
+                  <AdminDashboard />
+                </Suspense>
               </ProtectedRoute>
             }
           />

@@ -21,7 +21,7 @@ router.use(protect);
 // Express would try to interpret the literal word "search" as an :id.
 router.get('/search', searchVehicles);
 
-router.route('/').get(getVehicles).post(createVehicle);
+router.route('/').get(getVehicles).post(adminOnly, createVehicle);
 
 router.post('/:id/purchase', purchaseVehicle);
 router.post('/:id/restock', adminOnly, restockVehicle);
@@ -29,7 +29,7 @@ router.post('/:id/restock', adminOnly, restockVehicle);
 router
   .route('/:id')
   .get(getVehicleById)
-  .put(updateVehicle)
+  .put(adminOnly, updateVehicle)
   .delete(adminOnly, deleteVehicle);
 
 module.exports = router;

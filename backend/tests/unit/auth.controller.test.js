@@ -63,7 +63,7 @@ describe('authController (unit, mocked model)', () => {
       expect(next).toHaveBeenCalledWith(expect.objectContaining({ statusCode: 409 }));
     });
 
-    it('never assigns the admin role unless explicitly requested', async () => {
+    it('never accepts an admin role from public registration', async () => {
       const req = { body: { name: 'Jane', email: 'jane@example.com', password: 'secret123' } };
       User.findOne.mockResolvedValue(null);
       User.create.mockResolvedValue({ _id: '1' });
@@ -71,7 +71,7 @@ describe('authController (unit, mocked model)', () => {
 
       await register(req, mockRes(), jest.fn());
 
-      expect(User.create).toHaveBeenCalledWith(expect.objectContaining({ role: 'user' }));
+      expect(User.create).toHaveBeenCalledWith(expect.objectContaining({ role: 'customer' }));
     });
   });
 

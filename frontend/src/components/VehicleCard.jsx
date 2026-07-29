@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
 const currency = (value) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+  new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(value);
 
 const VehicleCard = ({ vehicle, onPurchase, onEdit, onDelete, onRestock }) => {
   const { isAdmin } = useAuth();
-  const [busy, setBusy] = useState(false);
   const outOfStock = vehicle.quantity <= 0;
-
-  const handlePurchase = async () => {
-    setBusy(true);
-    await onPurchase(vehicle);
-    setBusy(false);
-  };
+  const lowStock = vehicle.quantity > 0 && vehicle.quantity < 5;
 
   return (
-    <article className="card group flex flex-col">
+    <article className={`card group flex flex-col ${lowStock ? 'border-ember border-2' : ''}`}>
       <div className="relative h-48 bg-steel-300/30 overflow-hidden">
         {vehicle.imageUrl ? (
           <img
@@ -38,16 +33,22 @@ const VehicleCard = ({ vehicle, onPurchase, onEdit, onDelete, onRestock }) => {
 
         {outOfStock && (
           <span className="absolute top-3 right-3 bg-ember text-white text-[10px] font-display uppercase tracking-widest2 px-3 py-1">
-            Sold out
+            Out of stock
+          </span>
+        )}
+        {lowStock && (
+          <span className="absolute top-3 right-3 bg-ember text-white text-[10px] font-display uppercase tracking-widest2 px-3 py-1">
+            ⚠ Low stock
           </span>
         )}
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        <h3 className="font-display text-xl leading-tight">
+        <Link to={`/vehicles/${vehicle._id}`} className="font-display text-xl leading-tight hover:text-ember transition-colors">
           {vehicle.make} {vehicle.model}
-        </h3>
+        </Link>
         {vehicle.year && <p className="text-xs text-steel-600 mt-1">{vehicle.year} model year</p>}
+        <p className="text-xs text-steel-600 mt-2">{[vehicle.fuelType, vehicle.transmission].filter(Boolean).join(' · ')}</p>
 
         <div className="flex items-baseline justify-between mt-4">
           <span className="font-display text-2xl">{currency(vehicle.price)}</span>
@@ -60,11 +61,13 @@ const VehicleCard = ({ vehicle, onPurchase, onEdit, onDelete, onRestock }) => {
           <button
             type="button"
             className="btn-primary"
-            disabled={outOfStock || busy}
-            onClick={handlePurchase}
+            disabled={outOfStock}
+            onClick={() => onPurchase(vehicle)}
           >
-            {busy ? 'Processing…' : outOfStock ? 'Out of stock' : 'Purchase'}
+            {outOfStock ? 'Out of stock' : 'Purchase'}
           </button>
+
+          <Link to={`/vehicles/${vehicle._id}`} className="btn-ghost border border-steel-300">View details</Link>
 
           {isAdmin && (
             <div className="grid grid-cols-3 gap-2 pt-1">

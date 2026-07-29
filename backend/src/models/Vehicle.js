@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const VEHICLE_CATEGORIES = ['Sedan', 'SUV', 'Hatchback', 'Coupe', 'Truck', 'Convertible', 'Van'];
+const VEHICLE_CATEGORIES = ['Sedan', 'SUV', 'Hatchback', 'Coupe', 'Truck', 'Convertible', 'Van', 'MUV', 'EV', 'Luxury'];
+const FUEL_TYPES = ['Petrol', 'Diesel', 'Electric', 'Hybrid', 'CNG'];
+const TRANSMISSIONS = ['Manual', 'Automatic'];
 
 const vehicleSchema = new mongoose.Schema(
   {
@@ -14,6 +16,14 @@ const vehicleSchema = new mongoose.Schema(
       required: [true, 'Model is required'],
       trim: true,
     },
+    // Optional for legacy records, but populated for every imported vehicle.
+    // It also satisfies an existing unique `vin` index in the connected database.
+    vin: {
+      type: String,
+      trim: true,
+      unique: true,
+      sparse: true,
+    },
     category: {
       type: String,
       required: [true, 'Category is required'],
@@ -23,6 +33,14 @@ const vehicleSchema = new mongoose.Schema(
       type: Number,
       min: 1900,
       max: new Date().getFullYear() + 1,
+    },
+    fuelType: {
+      type: String,
+      enum: FUEL_TYPES,
+    },
+    transmission: {
+      type: String,
+      enum: TRANSMISSIONS,
     },
     price: {
       type: Number,
@@ -60,3 +78,5 @@ vehicleSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Vehicle', vehicleSchema);
 module.exports.VEHICLE_CATEGORIES = VEHICLE_CATEGORIES;
+module.exports.FUEL_TYPES = FUEL_TYPES;
+module.exports.TRANSMISSIONS = TRANSMISSIONS;

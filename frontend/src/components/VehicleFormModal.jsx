@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-const CATEGORIES = ['Sedan', 'SUV', 'Hatchback', 'Coupe', 'Truck', 'Convertible', 'Van'];
+const CATEGORIES = ['Sedan', 'SUV', 'Hatchback', 'MUV', 'EV', 'Luxury'];
+const FUELS = ['Petrol', 'Diesel', 'Electric', 'Hybrid', 'CNG'];
+const TRANSMISSIONS = ['Manual', 'Automatic'];
 
 const emptyForm = {
   make: '',
   model: '',
   category: 'Sedan',
   year: new Date().getFullYear(),
+  fuelType: 'Petrol',
+  transmission: 'Automatic',
   price: '',
   quantity: 0,
   imageUrl: '',
@@ -29,6 +33,8 @@ const VehicleFormModal = ({ vehicle, onClose, onSubmit }) => {
         model: vehicle.model || '',
         category: vehicle.category || 'Sedan',
         year: vehicle.year || new Date().getFullYear(),
+        fuelType: vehicle.fuelType || 'Petrol',
+        transmission: vehicle.transmission || 'Automatic',
         price: vehicle.price ?? '',
         quantity: vehicle.quantity ?? 0,
         imageUrl: vehicle.imageUrl || '',
@@ -47,6 +53,14 @@ const VehicleFormModal = ({ vehicle, onClose, onSubmit }) => {
 
     if (!form.make || !form.model || !form.category || form.price === '') {
       setError('Make, model, category and price are required.');
+      return;
+    }
+    if (Number(form.price) < 0 || Number(form.quantity) < 0) {
+      setError('Price and quantity cannot be negative.');
+      return;
+    }
+    if (form.year && (Number(form.year) < 1900 || Number(form.year) > new Date().getFullYear() + 1)) {
+      setError(`Year must be between 1900 and ${new Date().getFullYear() + 1}.`);
       return;
     }
 
@@ -92,6 +106,18 @@ const VehicleFormModal = ({ vehicle, onClose, onSubmit }) => {
             <input id="v-make" className="input-field" value={form.make} onChange={update('make')} required />
           </div>
           <div>
+            <label className="eyebrow" htmlFor="v-fuel">Fuel type</label>
+            <select id="v-fuel" className="input-field" value={form.fuelType} onChange={update('fuelType')}>
+              {FUELS.map((fuel) => <option key={fuel} value={fuel}>{fuel}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="eyebrow" htmlFor="v-transmission">Transmission</label>
+            <select id="v-transmission" className="input-field" value={form.transmission} onChange={update('transmission')}>
+              {TRANSMISSIONS.map((transmission) => <option key={transmission} value={transmission}>{transmission}</option>)}
+            </select>
+          </div>
+          <div>
             <label className="eyebrow" htmlFor="v-model">Model</label>
             <input id="v-model" className="input-field" value={form.model} onChange={update('model')} required />
           </div>
@@ -105,10 +131,10 @@ const VehicleFormModal = ({ vehicle, onClose, onSubmit }) => {
           </div>
           <div>
             <label className="eyebrow" htmlFor="v-year">Year</label>
-            <input id="v-year" type="number" className="input-field" value={form.year} onChange={update('year')} />
+            <input id="v-year" type="number" min="1900" max={new Date().getFullYear() + 1} className="input-field" value={form.year} onChange={update('year')} />
           </div>
           <div>
-            <label className="eyebrow" htmlFor="v-price">Price (USD)</label>
+            <label className="eyebrow" htmlFor="v-price">Price (INR)</label>
             <input
               id="v-price"
               type="number"

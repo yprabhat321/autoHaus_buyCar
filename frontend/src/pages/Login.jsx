@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 
 const Login = () => {
   const { login, authError, loading, clearAuthError } = useAuth();
@@ -8,6 +9,7 @@ const Login = () => {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { showToast } = useToast();
 
   const from = location.state?.from?.pathname || '/';
 
@@ -15,7 +17,10 @@ const Login = () => {
     e.preventDefault();
     clearAuthError();
     const ok = await login(email, password);
-    if (ok) navigate(from, { replace: true });
+    if (ok) {
+      showToast('Welcome back. You are signed in.');
+      navigate(from, { replace: true });
+    }
   };
 
   return (
@@ -64,6 +69,7 @@ const Login = () => {
                 className="input-field"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                minLength="8"
                 placeholder="••••••••"
               />
             </div>

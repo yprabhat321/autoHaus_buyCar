@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
  */
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
       throw new ApiError(400, 'Name, email and password are all required.');
@@ -19,15 +19,14 @@ const register = async (req, res, next) => {
       throw new ApiError(409, 'An account with that email already exists.');
     }
 
-    // Only allow the 'admin' role to be assigned when explicitly requested.
-    // In a real production system this would be gated further (e.g. an
-    // invite code or a separate admin-provisioning endpoint); here we keep
-    // it simple for the purposes of the kata while still demonstrating RBAC.
+    // Privileged roles must never be supplied by a public registration form.
     const user = await User.create({
       name,
       email,
       password,
-      role: role === 'admin' ? 'admin' : 'user',
+      // Public registration always creates a customer. Administrator access
+      // is provisioned only by the controlled seed/admin process.
+      role: 'customer',
     });
 
     const token = generateToken(user);
