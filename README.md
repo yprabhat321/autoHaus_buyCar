@@ -30,6 +30,30 @@ You can also create a customer account using the **Register** page to test the p
 
 > The credentials above are for demonstration only. Change them before using the project in a public or production environment.
 
+## Running locally for review
+
+The repository does not include `node_modules` or a real `.env` file. This is intentional: dependencies are installed locally and database credentials must remain private.
+
+To run a downloaded copy, install dependencies in both applications, create `.env` files from the supplied examples, and provide a MongoDB connection string that you control:
+
+```powershell
+cd backend
+Copy-Item .env.example .env
+npm install
+npm run dev
+```
+
+In a second terminal:
+
+```powershell
+cd frontend
+Copy-Item .env.example .env
+npm install
+npm run dev
+```
+
+Before starting the backend, update `backend/.env` with either a local MongoDB address or a MongoDB Atlas `MONGO_URI`. The project intentionally does not contain a personal Atlas connection string, password, or JWT secret. Once both services are running, open `http://localhost:5173` and use the demo account above.
+
 ## What can be tested
 
 ### Customer flow
