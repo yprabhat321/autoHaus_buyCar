@@ -2,6 +2,11 @@
 
 AutoHaus is a full-stack car dealership inventory management and purchase system. Built with Node.js, Express, MongoDB Atlas, and React (Vite + Tailwind CSS), the project was developed following Test-Driven Development (TDD) practices.
 
+### 🔗 Quick App Links
+- [Inventory](http://localhost:5173/)
+- [Purchases](http://localhost:5173/purchases)
+- [Invoices](http://localhost:5173/invoices)
+
 ---
 
 ## 🔑 Demo Admin Credentials
