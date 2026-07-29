@@ -24,7 +24,7 @@ The Admin portal provides complete dealership oversight, inventory operations, s
 
 | Catalogue actions | Search, filters, and vehicle creation |
 | --- | --- |
-| ![Admin inventory catalogue](docs/screenshots/admin-inventory-cards.png) | ![Admin inventory search](docs/screenshots/admin-inventory-search.png) |
+| ![Admin inventory search](docs/screenshots/admin-inventory-cards.png) | ![Admin inventory catalogue](docs/screenshots/admin-inventory-search.png) |
 
 #### 2. Purchase Records
 
